@@ -1,0 +1,17 @@
+{
+  "name": "shariult/php-web-mvc",
+  "description": "PHP website Starter",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Md. Shariul Islam",
+      "email": "contact@shariul.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "App\\": "App/"
+    }
+  }
+}
