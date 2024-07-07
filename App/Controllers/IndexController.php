@@ -18,17 +18,17 @@ class IndexController {
   public function getIndex() {
 
     // Get Posts //
-    $queryFields = "posts.*, users.userId, users.firstName, users.lastName, categories.categoryId, categories.category";
+    $postQueryCols = "posts.*, users.userId, users.firstName, users.lastName, categories.categoryId, categories.category";
 
-    $query = "SELECT {$queryFields} FROM posts";
-    $query = "{$query} LEFT JOIN users ON posts.postAuthorId = users.userId";
-    $query = "{$query} LEFT JOIN categories ON posts.postCategoryId = categories.categoryId";
-    $query = "{$query} ORDER BY posts.createdAt DESC LIMIT 6;";
-    $posts = $this->db->query($query)->fetchAll();
+    $postQuery = "SELECT {$postQueryCols} FROM posts";
+    $postQuery = "{$postQuery} LEFT JOIN users ON posts.postAuthorId = users.userId";
+    $postQuery = "{$postQuery} LEFT JOIN categories ON posts.postCategoryId = categories.categoryId";
+    $postQuery = "{$postQuery} ORDER BY posts.createdAt DESC LIMIT 6;";
+    $posts = $this->db->query($postQuery)->fetchAll();
 
     // Get Categories //
-    $queryCategory = "SELECT * FROM categories ORDER BY category ASC;";
-    $categories = $this->db->query($queryCategory)->fetchAll();
+    $categoryQuery = "SELECT * FROM categories ORDER BY category ASC;";
+    $categories = $this->db->query($categoryQuery)->fetchAll();
 
     loadView("index", [
       "posts"      => $posts,
