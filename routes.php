@@ -11,5 +11,6 @@ $router->get("/blog/{postId}", "BlogController@getBlogShow");
 
 $router->post("/login", "IndexController@postLogin");
 $router->post("/register", "IndexController@postRegister");
+$router->post("/blog", "BlogController@postBlog")
 
 ?>

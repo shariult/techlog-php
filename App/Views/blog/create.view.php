@@ -11,38 +11,46 @@
     <div class="g-3 row">
       <div class="col-12">
         <label for="postTitle" class="form-label">Post Title</label>
-        <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="Post Title" required />
+        <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="Post Title"
+          value="<?=$postData['postTitle'] ?? ''?>" required />
         <div class="invalid-feedback">Post Title Cannot be empty</div>
+        <?=outFormError($error ?? null, "postTitle")?>
       </div>
       <div class="col-sm-6">
         <label for="postTags" class="form-label">Post Tags</label>
-        <input type="text" name="postTags" class="form-control" id="postTags" placeholder="Separate Tags By Comma" />
+        <input type="text" name="postTags" class="form-control" id="postTags" placeholder="Separate Tags By Comma"
+          value="<?=$postData['postTags'] ?? ''?>" />
+        <?=outFormError($error ?? null, "postTags")?>
       </div>
       <div class="col-sm-6">
         <label for="postCategory" class="form-label">Post Category</label>
         <select name="postCategory" class="form-select" id="postCategory" required>
-          <option value>Choose...</option>
-          <option value>Software</option>
-          <option value>Hardware</option>
-          <option value>Gadget</option>
-          <option value>Internet</option>
-          <option value>Web Development</option>
-          <option value>Software Development</option>
+          <option value="" disabled selected>Choose...</option>
+
+          <?php foreach ($categories as $category): ?>
+          <option value="<?=$category['categoryId']?>"
+            <?=isset($postData) && $postData['postCategoryId'] === $category['categoryId'] ? 'selected' : ''?>>
+            <?=$category['category']?></option>
+          <?php endforeach;?>
+
         </select>
         <div class="invalid-feedback">Please select a valid Category.</div>
+        <?=outFormError($error ?? null, "postCategory")?>
       </div>
       <div class="col-12">
         <label for="postImage" class="form-label">Post Image</label>
         <input type="file" name="postImage" class="form-control" id="postImage" required />
         <div class="invalid-feedback">Please include an image.</div>
+        <?=outFormError($error ?? null, "postImage")?>
       </div>
     </div>
     <hr class="my-4" />
     <div class="col-12">
       <label for="postBody" class="form-label">Post Body</label>
       <textarea type="text" name="postBody" class="form-control" id="postBody" placeholder="Write the post" rows="11"
-        required></textarea>
+        required>value="<?=$postData['postBody'] ?? ''?>"</textarea>
       <div class="invalid-feedback">Post can not be empty!</div>
+      <?=outFormError($error ?? null, "postBody")?>
     </div>
     <hr class="my-4" />
     <button class="btn btn-lg btn-primary text-light w-100" type="submit">

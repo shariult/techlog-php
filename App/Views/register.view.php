@@ -14,14 +14,14 @@
         <input type="text" name="firstName" class="form-control" id="firstName"
           value="<?=$userData['firstName'] ?? ''?>" required />
         <div class="invalid-feedback">Valid first name is required.</div>
-        <br /><?=outFormError($error ?? null, "firstName")?>
+        <?=outFormError($error ?? null, "firstName")?>
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">Last name</label>
         <input type="text" name="lastName" class="form-control" id="lastName" value="<?=$userData['lastName'] ?? ''?>"
           required />
         <div class="invalid-feedback">Valid last name is required.</div>
-        <br /><?=outFormError($error ?? null, "lastName")?>
+        <?=outFormError($error ?? null, "lastName")?>
       </div>
       <div class="col-sm-6">
         <label for="username" class="form-label">Username</label>
@@ -49,39 +49,39 @@
         <div class="invalid-feedback">
           Please enter a valid email address.
         </div>
-        <br /><?=outFormError($error ?? null, "email")?>
+        <?=outFormError($error ?? null, "email")?>
       </div>
       <div class="col-sm-6">
         <label for="profileImage" class="form-label">Profile Image</label>
         <input type="file" name="profileImage" class="form-control" id="profileImage" />
-        <br /><?=outFormError($error ?? null, "profileImage")?>
+        <?=outFormError($error ?? null, "profileImage")?>
       </div>
       <div class="col-sm-6">
         <label for="country" class="form-label">Country</label>
         <input type="text" name="country" class="form-control" id="country" value="<?=$userData['country'] ?? ''?>"
           placeholder="United States" />
-        <br /><?=outFormError($error ?? null, "country")?>
+        <?=outFormError($error ?? null, "country")?>
       </div>
       <div class="col-6">
         <label for="profession" class="form-label">Profession
           <span class="text-body-secondary">(Optional)</span></label>
         <input type="text" name="profession" class="form-control" id="profession" placeholder="Your Profession"
           value="<?=$userData['profession'] ?? ''?>" />
-        <br /><?=outFormError($error ?? null, "profession")?>
+        <?=outFormError($error ?? null, "profession")?>
       </div>
       <div class="col-6">
         <label for="birthDate" class="form-label">Birth Date
           <span class="text-body-secondary">(Optional)</span></label>
         <input type="date" name="birthDate" class="form-control" id="birthDate" placeholder="Your Birth Date"
           value="<?=$userData['birthDate'] ?? ''?>" />
-        <br /><?=outFormError($error ?? null, "birthDate")?>
+        <?=outFormError($error ?? null, "birthDate")?>
       </div>
       <div class="col-12">
         <label for="about" class="form-label">About You
           <span class="text-body-secondary">(Optional)</span></label>
         <textarea type="text" name="about" class="form-control" id="about" placeholder="Something About You"
           rows="2"><?=$userData['about'] ?? ''?></textarea>
-        <br /><?=outFormError($error ?? null, "about")?>
+        <?=outFormError($error ?? null, "about")?>
       </div>
     </div>
     <button class="btn btn-lg btn-primary text-light" type="submit">
