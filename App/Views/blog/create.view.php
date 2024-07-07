@@ -3,11 +3,11 @@
 
 <main class="container-96 mb-5 py-5">
   <div class="py-5 text-center">
-    <img class="d-block mb-4 mx-auto" src="img/logo.3a251448.png" alt width="72" />
+    <img class="d-block mb-4 mx-auto" src="/img/logo.3a251448.png" alt width="72" />
     <h2>Write About Tech</h2>
     <p class="lead">Share information you know.</p>
   </div>
-  <form class="mx-auto needs-validation w-75" novalidate>
+  <form method="post" action="/blog" enctype="multipart/form-data" class="mx-auto needs-validation w-75" novalidate>
     <div class="g-3 row">
       <div class="col-12">
         <label for="postTitle" class="form-label">Post Title</label>
@@ -23,8 +23,8 @@
         <?=outFormError($error ?? null, "postTags")?>
       </div>
       <div class="col-sm-6">
-        <label for="postCategory" class="form-label">Post Category</label>
-        <select name="postCategory" class="form-select" id="postCategory" required>
+        <label for="postCategoryId" class="form-label">Post Category</label>
+        <select name="postCategoryId" class="form-select" id="postCategoryId" required>
           <option value="" disabled selected>Choose...</option>
 
           <?php foreach ($categories as $category): ?>

@@ -50,6 +50,13 @@ function phpSanitizer($data) {
   return filter_var(trim($data ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
+function strReplaceFirst($haystack, $needle, $replace) {
+  $pos = strpos($haystack, $needle);
+  if ($pos !== false) {
+    $newstring = substr_replace($haystack, $replace, $pos, strlen($needle));
+  }
+}
+
 function splitCamelCase($str) {
   preg_match_all('/((?:^|[A-Z])[a-z]+)/', $str, $matches);
   $newStr = array_reduce($matches[1], function ($acc, $val) {
@@ -89,7 +96,11 @@ function outFormError($error, $searchFor) {
   }
 }
 
-function fileUploader($fileToUpload, $uploadDir = "img") {
+function imageUploader($fileToUpload, $uploadDir = "img") {
+  $pos = strpos($uploadDir, "/");
+  if ($pos === 0) {
+    $uploadDir = substr_replace($uploadDir, "", $pos, strlen("/"));
+  }
 
   if ($fileToUpload["error"] === UPLOAD_ERR_OK) {
 
@@ -108,7 +119,7 @@ function fileUploader($fileToUpload, $uploadDir = "img") {
       // Upload file
       if (move_uploaded_file($fileToUpload["tmp_name"], "{$uploadDir}/{$filename}")) {
         return [
-          "path"  => "{$uploadDir}/$filename",
+          "path"  => "/{$uploadDir}/$filename",
           "error" => null,
         ];
       } else {

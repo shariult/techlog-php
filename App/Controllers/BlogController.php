@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use Framework\Database;
+use Framework\Session;
+use Framework\Validate;
 
 class BlogController {
   private $db;
@@ -35,7 +37,7 @@ class BlogController {
       ];
     }
 
-    $query = "{$blogQuery} ORDER BY posts.createdAt DESC LIMIT 10;";
+    $blogQuery = "{$blogQuery} ORDER BY posts.createdAt DESC LIMIT 10;";
     $posts = $this->db->query($blogQuery, $blogQueryParams ?? [])->fetchAll();
 
     $categories = $this->getCategoryList();
@@ -81,7 +83,46 @@ class BlogController {
     ]);
   }
 
-  public function postBlog() {}
+  public function postBlog() {
+    $postImage = imageUploader($_FILES["postImage"], "/img/posts");
+
+    $_POST["postImage"] = $postImage['path'];
+    $_POST["postAuthorId"] = Session::get("user")['userId'];
+
+    $allowedInputs = ["postTitle", "postBody", "postImage", "postTags", "postCategoryId", "postAuthorId"];
+    $requiredInputs = ["postTitle", "postBody", "postImage", "postCategoryId", "postAuthorId"];
+
+    ["data" => $postInputData, "error" => $error] = validateInputs($_POST, $allowedInputs, $requiredInputs);
+
+    if (!Validate::string($postInputData['postTitle'], 1, 255) && empty($erro['postTitle'])) {
+      $error['postTitle'] = "Post Title needs to be withing 1-255 characters";
+    }
+
+    if (!Validate::string($postInputData['postTags'], 1, 255) && empty($erro['postTags'])) {
+      $error['postTags'] = "Post Title needs to be withing 1-255 characters";
+    }
+
+    if (!empty($postImage['error'])) {
+      $error['postImage'] = $postImage['error'];
+    }
+
+    if (!empty($error)) {
+      unlink($postImage['path']);
+      $categories = $this->getCategoryList();
+      loadView("blog/create", [
+        "categories" => $categories,
+        "postData"   => $postInputData,
+        "error"      => $error,
+      ]);
+    }
+
+    $postQuery = $this->db->makeInsertQuery("posts", $allowedInputs);
+    $result = $this->db->query($postQuery, $postInputData);
+    $postId = $this->db->connection->lastInsertId();
+
+    redirect("/blog/{$postId}");
+
+  }
 
 }
 
