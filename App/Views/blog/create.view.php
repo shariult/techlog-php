@@ -48,7 +48,7 @@
     <div class="col-12">
       <label for="postBody" class="form-label">Post Body</label>
       <textarea type="text" name="postBody" class="form-control" id="postBody" placeholder="Write the post" rows="11"
-        required>value="<?=$postData['postBody'] ?? ''?>"</textarea>
+        required><?=$postData['postBody'] ?? ''?></textarea>
       <div class="invalid-feedback">Post can not be empty!</div>
       <?=outFormError($error ?? null, "postBody")?>
     </div>
