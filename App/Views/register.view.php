@@ -7,7 +7,7 @@
     <h2>Register</h2>
     <p class="lead">Experience Full Version of TechLog for FREE</p>
   </div>
-  <form class="needs-validation px-4" method="post" action="/register" novalidate>
+  <form class="needs-validation px-4" method="post" action="/register" enctype="multipart/form-data" novalidate>
     <div class="g-3 mb-3 row">
       <div class="col-sm-6">
         <label for="firstName" class="form-label">First name</label>

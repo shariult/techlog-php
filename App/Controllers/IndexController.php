@@ -45,7 +45,9 @@ class IndexController {
   }
 
   public function postRegister() {
-    $_POST['profileImage'] = "/img/users/user1.jpg";
+
+    $profileImage = fileUploader($_FILES['profileImage'], "img/users");
+    $_POST['profileImage'] = $profileImage['path'] ?? "/img/users/default.svg";
 
     $allowedInputs = ["firstName", "lastName", "username", "password", "email", "profileImage", "birthDate", "country", "profession", "about"];
     $requiredInputs = ["firstName", "lastName", "username", "password", "email"];
@@ -76,7 +78,16 @@ class IndexController {
       $error['email'] = "Username already exists";
     }
 
+    if (!empty($profileImage['error'])) {
+      $error['profileImage'] = $profileImage['error'];
+    }
+
     if (!empty($error)) {
+
+      if ($userData['profileImage'] !== "/img/users/default.svg") {
+        unlink($userData['profileImage']);
+      }
+
       loadView("register", [
         "userData" => $userData,
         "error"    => $error,
