@@ -109,29 +109,37 @@ function imageUploader($fileToUpload, $uploadDir = "img") {
       mkdir($uploadDir, 0755, true);
     }
 
-    // Create file name
+    // Create Unique file name
     $filename = uniqid() . "-" . $fileToUpload["name"];
 
     // Check file type
     $allowedExtensions = ["jpg", "jpeg", "png"];
     $fileExtension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-    if (in_array($fileExtension, $allowedExtensions)) {
-      // Upload file
-      if (move_uploaded_file($fileToUpload["tmp_name"], "{$uploadDir}/{$filename}")) {
-        return [
-          "path"  => "/{$uploadDir}/$filename",
-          "error" => null,
-        ];
-      } else {
-        return [
-          "path"  => null,
-          "error" => "File upload Error: {$fileToUpload["error"]}",
-        ];
-      }
-    } else {
+    if (!in_array($fileExtension, $allowedExtensions)) {
       return [
         "path"  => null,
         "error" => "Extension not allowed!",
+      ];
+    }
+
+    // Check file size
+    if ((int) $fileToUpload['size'] > 3072) {
+      return [
+        "path"  => null,
+        "error" => "File size should be within 1-300 KB",
+      ];
+    }
+
+    // Upload file
+    if (move_uploaded_file($fileToUpload["tmp_name"], "{$uploadDir}/{$filename}")) {
+      return [
+        "path"  => "/{$uploadDir}/$filename",
+        "error" => null,
+      ];
+    } else {
+      return [
+        "path"  => null,
+        "error" => "File upload Error: {$fileToUpload["error"]}",
       ];
     }
   }
