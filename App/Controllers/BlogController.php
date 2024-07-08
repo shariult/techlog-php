@@ -27,17 +27,17 @@ class BlogController {
     $blogQueryCols = "posts.*, users.userId, users.firstName, users.lastName, categories.categoryId, categories.category";
 
     $blogQuery = "SELECT {$blogQueryCols} FROM posts";
-    $blogQuery = "{$blogQuery} LEFT JOIN users ON posts.postAuthorId = users.userId";
-    $blogQuery = "{$blogQuery} LEFT JOIN categories ON posts.postCategoryId = categories.categoryId";
+    $blogQuery .= " LEFT JOIN users ON posts.postAuthorId = users.userId";
+    $blogQuery .= " LEFT JOIN categories ON posts.postCategoryId = categories.categoryId";
 
     if (!empty($categoryId)) {
-      $blogQuery = "{$blogQuery} WHERE posts.postCategoryId = :categoryId";
+      $blogQuery .= " WHERE posts.postCategoryId = :categoryId";
       $blogQueryParams = [
         "categoryId" => $categoryId,
       ];
     }
 
-    $blogQuery = "{$blogQuery} ORDER BY posts.createdAt DESC LIMIT 10;";
+    $blogQuery .= " ORDER BY posts.createdAt DESC LIMIT 10;";
     $posts = $this->db->query($blogQuery, $blogQueryParams ?? [])->fetchAll();
 
     $categories = $this->getCategoryList();
@@ -56,9 +56,9 @@ class BlogController {
     $requiredCols = "posts.*, categories.categoryId, categories.category, users.userId, users.firstName, users.lastName";
 
     $postQuery = "SELECT {$requiredCols} FROM posts";
-    $postQuery = "{$postQuery} LEFT JOIN categories ON posts.postCategoryId = categories.categoryId";
-    $postQuery = "{$postQuery} LEFT JOIN users ON posts.postAuthorId = users.userId";
-    $postQuery = "{$postQuery} WHERE posts.postId = :postId";
+    $postQuery .= " LEFT JOIN categories ON posts.postCategoryId = categories.categoryId";
+    $postQuery .= " LEFT JOIN users ON posts.postAuthorId = users.userId";
+    $postQuery .= " WHERE posts.postId = :postId";
 
     $postQueryParams = [
       "postId" => $postId,
