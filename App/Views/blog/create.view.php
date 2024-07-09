@@ -29,8 +29,9 @@
 
           <?php foreach ($categories as $category): ?>
           <option value="<?=$category['categoryId']?>"
-            <?=isset($postData) && $postData['postCategoryId'] === $category['categoryId'] ? 'selected' : ''?>>
-            <?=$category['category']?></option>
+            <?=isset($postData) && (int) $postData['postCategoryId'] === (int) $category['categoryId'] ? 'selected' : ''?>>
+            <?=$category['category']?>
+          </option>
           <?php endforeach;?>
 
         </select>

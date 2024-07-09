@@ -46,8 +46,11 @@ function redirect($url) {
   exit;
 }
 
-function phpSanitizer($data) {
-  return filter_var(trim($data ?? ''), FILTER_SANITIZE_SPECIAL_CHARS);
+function phpSanitizer($str) {
+  if (isset($str)) {
+    return filter_var(trim($str), FILTER_SANITIZE_SPECIAL_CHARS);
+  }
+  return null;
 }
 
 function strReplaceFirst($haystack, $needle, $replace) {
@@ -74,16 +77,17 @@ function validateInputs($data, $allowedInputs, $requiredInputs) {
 
   // Trim and set empty value to null
   foreach ($data as $key => $value) {
-    $cleanData[$key] = !empty($value) ? phpSanitizer($value) : NULL;
+    $cleanData[$key] = $value !== "" ? phpSanitizer($value) : NULL;
   }
 
   // Set Error if Required field is empty
   foreach ($requiredInputs as $requiredInput) {
-    if (empty($cleanData[$requiredInput])) {
+    if (!isset($cleanData[$requiredInput])) {
       $nameStr = splitCamelCase($requiredInput);
       $error[$requiredInput] = "{$nameStr} is required";
     }
   }
+
   return [
     "error" => $error,
     "data"  => $cleanData,
@@ -97,6 +101,11 @@ function outFormError($error, $searchFor) {
 }
 
 function imageUploader($fileToUpload, $uploadDir = "img") {
+  $fileData = [
+    "path"  => null,
+    "error" => null,
+  ];
+
   $pos = strpos($uploadDir, "/");
   if ($pos === 0) {
     $uploadDir = substr_replace($uploadDir, "", $pos, strlen("/"));
@@ -116,34 +125,26 @@ function imageUploader($fileToUpload, $uploadDir = "img") {
     $allowedExtensions = ["jpg", "jpeg", "png"];
     $fileExtension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
     if (!in_array($fileExtension, $allowedExtensions)) {
-      return [
-        "path"  => null,
-        "error" => "Extension not allowed!",
-      ];
+      $fileData["error"] = "Extension not allowed!";
+      return $fileData;
     }
 
     // Check file size
-    if ((int) $fileToUpload['size'] > 3072) {
-      return [
-        "path"  => null,
-        "error" => "File size should be within 1-300 KB",
-      ];
+    if ((int) $fileToUpload['size'] > 307200) {
+      $fileData["error"] = "File size should be within 1-300 KB";
+      return $fileData;
     }
 
     // Upload file
     if (move_uploaded_file($fileToUpload["tmp_name"], "{$uploadDir}/{$filename}")) {
-      return [
-        "path"  => "/{$uploadDir}/$filename",
-        "error" => null,
-      ];
+      $fileData['path'] = "/{$uploadDir}/$filename";
+      return $fileData;
     } else {
-      return [
-        "path"  => null,
-        "error" => "File upload Error: {$fileToUpload["error"]}",
-      ];
+      $fileData["error"] = "File upload Error: {$fileToUpload["error"]}";
+      return $fileData;
     }
   }
-  return false;
+  return $fileData;
 }
 
 ?>

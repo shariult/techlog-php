@@ -107,7 +107,10 @@ class BlogController {
     }
 
     if (!empty($error)) {
-      unlink($postImage['path']);
+      if (isset($postImage['path'])) {
+        unlink($postImage['path']);
+      }
+
       $categories = $this->getCategoryList();
       loadView("blog/create", [
         "categories" => $categories,
