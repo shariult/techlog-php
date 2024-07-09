@@ -66,21 +66,19 @@
         <nav aria-label="Pagination">
           <hr class="my-0" />
           <ul class="justify-content-center my-4 pagination">
-            <li class="disabled page-item">
+            <!-- <li class="disabled page-item">
               <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+            </li> -->
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="page-item <?=(int) $pageNum === (int) $i ? 'active' : ''?>" aria-current="page">
+              <a class="page-link" href="/blog?page=<?=$i?>"><?=$i?></a>
             </li>
-            <li class="active page-item" aria-current="page">
-              <a class="page-link" href="#!">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-            <li class="disabled page-item">
-              <a class="page-link" href="#!">...</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-            <li class="page-item">
+            <?php endfor;?>
+
+
+            <!--<li class="page-item">
               <a class="page-link" href="#!">Older</a>
-            </li>
+            </li> -->
           </ul>
         </nav>
       </div>

@@ -20,10 +20,15 @@ class BlogController {
   }
 
   public function getBlogList() {
-
-    $categoryId = phpSanitizer($_GET['categoryId'] ?? '');
+    // Pagination
+    $pageNum = phpSanitizer($_GET['page'] ?? 1);
+    $setQueryLimit = !empty($pageNum) ? (int) ($pageNum - 1) * 10 . ', 10' : "10";
+    $totalPosts = $this->db->query("SELECT COUNT(postId) as count FROM posts")->fetch()['count'];
+    $totalPages = ceil($totalPosts / 10);
 
     // Get Posts
+    $categoryId = phpSanitizer($_GET['categoryId'] ?? '');
+
     $blogQueryCols = "posts.*, users.userId, users.firstName, users.lastName, categories.categoryId, categories.category";
 
     $blogQuery = "SELECT {$blogQueryCols} FROM posts";
@@ -37,7 +42,7 @@ class BlogController {
       ];
     }
 
-    $blogQuery .= " ORDER BY posts.createdAt DESC LIMIT 10;";
+    $blogQuery .= " ORDER BY posts.createdAt DESC LIMIT {$setQueryLimit};";
     $posts = $this->db->query($blogQuery, $blogQueryParams ?? [])->fetchAll();
 
     $categories = $this->getCategoryList();
@@ -45,6 +50,8 @@ class BlogController {
     loadView("blog/index", [
       "posts"      => $posts,
       "categories" => $categories,
+      "totalPages" => $totalPages,
+      "pageNum"    => $pageNum,
     ]);
   }
 
