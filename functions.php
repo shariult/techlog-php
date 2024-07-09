@@ -53,13 +53,6 @@ function phpSanitizer($str) {
   return null;
 }
 
-function strReplaceFirst($haystack, $needle, $replace) {
-  $pos = strpos($haystack, $needle);
-  if ($pos !== false) {
-    $newstring = substr_replace($haystack, $replace, $pos, strlen($needle));
-  }
-}
-
 function splitCamelCase($str) {
   preg_match_all('/((?:^|[A-Z])[a-z]+)/', $str, $matches);
   $newStr = array_reduce($matches[1], function ($acc, $val) {
