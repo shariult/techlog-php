@@ -47,7 +47,7 @@ function redirect($url) {
 }
 
 function phpSanitizer($str) {
-  if (isset($str)) {
+  if (isset($str) && strlen($str) > 0) {
     return filter_var(trim($str), FILTER_SANITIZE_SPECIAL_CHARS);
   }
   return null;
@@ -70,7 +70,7 @@ function validateInputs($data, $allowedInputs, $requiredInputs) {
 
   // Trim and set empty value to null
   foreach ($data as $key => $value) {
-    $cleanData[$key] = $value !== "" ? phpSanitizer($value) : NULL;
+    $cleanData[$key] = phpSanitizer($value);
   }
 
   // Set Error if Required field is empty
