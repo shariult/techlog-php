@@ -22,7 +22,7 @@ class BlogController {
   public function getBlogList() {
     // Pagination
     $pageNum = phpSanitizer($_GET['page'] ?? 1);
-    $setQueryLimit = !empty($pageNum) ? (int) ($pageNum - 1) * 10 . ', 10' : "10";
+    $setQueryLimit = $pageNum > 1 ? (int) ($pageNum - 1) * 10 . ', 10' : "10";
     $totalPosts = $this->db->query("SELECT COUNT(postId) as count FROM posts")->fetch()['count'];
     $totalPages = ceil($totalPosts / 10);
 
