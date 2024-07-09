@@ -40,6 +40,47 @@ class Validate {
     }
     return false;
   }
+
+  public static function formInputs($data, $allowedInputs, $requiredInputs) {
+    $error = [];
+    $cleanData = [];
+
+    function phpSanitizer($str) {
+      if (isset($str)) {
+        return filter_var(trim($str), FILTER_SANITIZE_SPECIAL_CHARS);
+      }
+      return null;
+    }
+
+    function splitCamelCase($str) {
+      preg_match_all('/((?:^|[A-Z])[a-z]+)/', $str, $matches);
+      $newStr = array_reduce($matches[1], function ($acc, $val) {
+        return ucfirst($acc) . " " . ucfirst($val);
+      }, "");
+      return trim($newStr);
+    }
+
+    // Use only Allowed Inputs
+    $data = array_intersect_key($data, array_flip($allowedInputs));
+
+    // Trim and set empty value to null
+    foreach ($data as $key => $value) {
+      $cleanData[$key] = $value !== "" ? phpSanitizer($value) : NULL;
+    }
+
+    // Set Error if Required field is empty
+    foreach ($requiredInputs as $requiredInput) {
+      if (!isset($cleanData[$requiredInput])) {
+        $nameStr = splitCamelCase($requiredInput);
+        $error[$requiredInput] = "{$nameStr} is required";
+      }
+    }
+
+    return [
+      "error" => $error,
+      "data"  => $cleanData,
+    ];
+  }
 }
 
 ?>

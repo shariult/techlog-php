@@ -12,14 +12,14 @@
       <div class="col-12">
         <label for="postTitle" class="form-label">Post Title</label>
         <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="Post Title"
-          value="<?=$postData['postTitle'] ?? ''?>" required />
+          value="<?=$postInputData['postTitle'] ?? ''?>" required />
         <div class="invalid-feedback">Post Title Cannot be empty</div>
         <?=outFormError($error ?? null, "postTitle")?>
       </div>
       <div class="col-sm-6">
         <label for="postTags" class="form-label">Post Tags</label>
         <input type="text" name="postTags" class="form-control" id="postTags" placeholder="Separate Tags By Comma"
-          value="<?=$postData['postTags'] ?? ''?>" />
+          value="<?=$postInputData['postTags'] ?? ''?>" />
         <?=outFormError($error ?? null, "postTags")?>
       </div>
       <div class="col-sm-6">
@@ -29,7 +29,7 @@
 
           <?php foreach ($categories as $category): ?>
           <option value="<?=$category['categoryId']?>"
-            <?=isset($postData) && (int) $postData['postCategoryId'] === (int) $category['categoryId'] ? 'selected' : ''?>>
+            <?=isset($postInputData) && (int) $postInputData['postCategoryId'] === (int) $category['categoryId'] ? 'selected' : ''?>>
             <?=$category['category']?>
           </option>
           <?php endforeach;?>
@@ -49,7 +49,7 @@
     <div class="col-12">
       <label for="postBody" class="form-label">Post Body</label>
       <textarea type="text" name="postBody" class="form-control" id="postBody" placeholder="Write the post" rows="11"
-        required><?=$postData['postBody'] ?? ''?></textarea>
+        required><?=$postInputData['postBody'] ?? ''?></textarea>
       <div class="invalid-feedback">Post can not be empty!</div>
       <?=outFormError($error ?? null, "postBody")?>
     </div>

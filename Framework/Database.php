@@ -35,10 +35,24 @@ class Database {
     }
   }
 
-  public function makeInsertQuery($tableName, $allowedInputs) {
-    $keys = implode(", ", $allowedInputs);
-    $placeholders = implode(", ", array_map(fn($item) => ":{$item}", $allowedInputs));
+  public function makeInsertQuery($tableName, $allowedInputs, $primaryKey = null) {
+    $filteredInputs = array_filter($allowedInputs, fn($str) => $str !== $primaryKey);
+    $keys = implode(", ", $filteredInputs);
+    $placeholders = implode(", ", array_map(fn($item) => ":{$item}", $filteredInputs));
     return "INSERT INTO {$tableName}({$keys}) VALUES($placeholders)";
+  }
+
+  public function makeUpdateQuery($tableName, $allowedInputs, $primaryKey, $where) {
+    $updateStr = array_reduce($allowedInputs, function ($acc, $str) {
+      if ($str === $primaryKey) {
+        return $acc;
+      } else if ($acc === "") {
+        return "{$str} = :{$str}";
+      } else {
+        return "{$acc}, {$str} = :{$str}";
+      }
+    }, "");
+    return "UPDATE {$tableName} SET {$updateStr} WHERE $where";
   }
 }
 
