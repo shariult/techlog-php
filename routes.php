@@ -13,6 +13,7 @@ $router->get("/blog/{postId}/edit", "BlogController@getBlogEdit");
 $router->post("/login", "IndexController@postLogin");
 $router->post("/register", "IndexController@postRegister");
 $router->post("/blog", "BlogController@postBlog");
+$router->post("/blog/{postId}/review", "ReviewController@postReview");
 
 $router->put("/blog/{postId}", "BlogController@putBlog");
 

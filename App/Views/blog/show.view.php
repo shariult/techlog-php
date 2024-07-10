@@ -32,11 +32,12 @@
       <section class="mb-5">
         <div class="bg-light card">
           <div class="card-body">
-            <form class="mb-4">
-              <textarea class="form-control mb-3" rows="3"
-                placeholder="Join the discussion and leave a comment!"></textarea>
+            <form method="post" action="/blog/<?=$post['postId']?>/review" class="mb-4">
+              <textarea name="review" class="form-control mb-3" rows="3"
+                placeholder="Join the discussion and leave a comment!"><?=$reviewInputData['review'] ?? ''?></textarea>
+              <?=outFormError($error ?? null, "review")?>
               <button type="submit" class="btn btn-secondary text-light">
-                Add Comment
+                Add Review
               </button>
             </form>
             <div class="d-flex mb-4">
