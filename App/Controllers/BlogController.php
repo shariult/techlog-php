@@ -111,11 +111,11 @@ class BlogController {
 
     ["data" => $postInputData, "error" => $error] = validateInputs($_POST, $allowedInputs, $requiredInputs);
 
-    if (!Validate::string($postInputData['postTitle'], 1, 255) && empty($erro['postTitle'])) {
+    if (!Validate::string($postInputData['postTitle'], 1, 255) && empty($error['postTitle'])) {
       $error['postTitle'] = "Post Title needs to be withing 1-255 characters";
     }
 
-    if (!Validate::string($postInputData['postTags'], 1, 255) && empty($erro['postTags'])) {
+    if (!Validate::string($postInputData['postTags'], 1, 255) && empty($error['postTags'])) {
       $error['postTags'] = "Post Title needs to be withing 1-255 characters";
     }
 
@@ -135,6 +135,7 @@ class BlogController {
         "postInputData" => $postInputData,
         "error"         => $error,
       ]);
+      exit;
     }
 
     // Post Query
@@ -212,6 +213,7 @@ class BlogController {
         "postInputData" => $postInputData,
         "error"         => $error,
       ]);
+      exit;
     }
 
     // Update Query
