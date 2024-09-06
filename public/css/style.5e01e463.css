@@ -18370,6 +18370,7 @@ fieldset:disabled .btn {
   background-size: cover;
 }
 /*# sourceMappingURL=style.5e01e463.css.map */
-.social__icon:link {
+.footer__link,
+.footer__link:link {
   color: white;
 }
