@@ -46,11 +46,19 @@ function redirect($url) {
   exit;
 }
 
-function phpSanitizer($str) {
-  if (isset($str) && strlen($str) > 0) {
-    return filter_var(trim($str), FILTER_SANITIZE_SPECIAL_CHARS);
+function phpSanitizer($data) {
+  if (isset($data) && is_string($data) && strlen($data) > 0) {
+    return filter_var(trim($data), FILTER_SANITIZE_SPECIAL_CHARS);
+  } else if (isset($data) && is_numeric($data)) {
+    $sanitized = filter_var($data, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    return (strpos($sanitized, '.') !== false) ? (float) $sanitized : (int) $sanitized;
+  } else if (isset($data) && is_bool($data)) {
+    return $data;
+  } else if (isset($data) && is_array($data)) {
+    return array_map('phpSanitizer', $data);
+  } else {
+    return null;
   }
-  return null;
 }
 
 function splitCamelCase($str) {
@@ -63,19 +71,17 @@ function splitCamelCase($str) {
 
 function validateInputs($data, $allowedInputs, $requiredInputs) {
   $error = [];
-  $cleanData = [];
+  $sanitizedArr = [];
 
-  // Use only Allowed Inputs
+  // Use only allowed Inputs
   $data = array_intersect_key($data, array_flip($allowedInputs));
 
-  // Trim and set empty value to null
-  foreach ($data as $key => $value) {
-    $cleanData[$key] = phpSanitizer($value);
-  }
+  // Sanitize inputs
+  $sanitizedArr = phpSanitizer($data);
 
-  // Set Error if Required field is empty
+  // Set Error if required fields are empty
   foreach ($requiredInputs as $requiredInput) {
-    if (!isset($cleanData[$requiredInput])) {
+    if (!isset($sanitizedArr[$requiredInput])) {
       $nameStr = splitCamelCase($requiredInput);
       $error[$requiredInput] = "{$nameStr} is required";
     }
@@ -83,7 +89,7 @@ function validateInputs($data, $allowedInputs, $requiredInputs) {
 
   return [
     "error" => $error,
-    "data"  => $cleanData,
+    "data"  => $sanitizedArr,
   ];
 }
 
@@ -93,30 +99,28 @@ function outFormError($error, $searchFor) {
   }
 }
 
-function imageUploader($fileToUpload, $uploadDir = "img") {
+function mediaUploader($fileToUpload, $uploadDir = "img/posts") {
   $fileData = [
-    "path"  => null,
-    "error" => null,
+    "filename" => null,
+    "checksum" => null,
+    "path"     => null,
+    "error"    => null,
   ];
 
-  $pos = strpos($uploadDir, "/");
-  if ($pos === 0) {
-    $uploadDir = substr_replace($uploadDir, "", $pos, strlen("/"));
-  }
+  // Create Unique file name
+  $fileData['filename'] = uniqid() . "_" . $fileToUpload["name"];
+  $fileData['filename'] = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $fileData["filename"]);
+  $fileData["path"] = "{$uploadDir}/{$fileData['filename']}";
 
   if ($fileToUpload["error"] === UPLOAD_ERR_OK) {
-
     // Check and Create dir
     if (!is_dir($uploadDir)) {
       mkdir($uploadDir, 0755, true);
     }
 
-    // Create Unique file name
-    $filename = uniqid() . "-" . $fileToUpload["name"];
-
     // Check file type
     $allowedExtensions = ["jpg", "jpeg", "png"];
-    $fileExtension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    $fileExtension = strtolower(pathinfo($fileData['filename'], PATHINFO_EXTENSION));
     if (!in_array($fileExtension, $allowedExtensions)) {
       $fileData["error"] = "Extension not allowed!";
       return $fileData;
@@ -129,12 +133,10 @@ function imageUploader($fileToUpload, $uploadDir = "img") {
     }
 
     // Upload file
-    if (move_uploaded_file($fileToUpload["tmp_name"], "{$uploadDir}/{$filename}")) {
-      $fileData['path'] = "/{$uploadDir}/$filename";
-      return $fileData;
+    if (move_uploaded_file($fileToUpload["tmp_name"], $fileData["path"])) {
+      $fileData['checksum'] = sha1_file($fileData["path"]);
     } else {
       $fileData["error"] = "File upload Error: {$fileToUpload["error"]}";
-      return $fileData;
     }
   }
   return $fileData;

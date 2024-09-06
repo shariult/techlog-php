@@ -93,17 +93,17 @@ class BlogController {
 
   public function postBlog() {
     // Upload image
-    $postImage = imageUploader($_FILES["postImage"], "/img/posts");
+    $postImage = mediaUploader($_FILES["postImage"], "img/posts");
 
     // Setting necessary field
-    $_POST["postImage"] = $postImage['path'];
+    $_POST["postImage"] = $postImage['filename'];
     $_POST["postAuthorId"] = Session::get("user")['userId'];
 
     // Form validation
     $allowedInputs = ["postId", "postTitle", "postBody", "postImage", "postTags", "postCategoryId", "postAuthorId"];
     $requiredInputs = ["postTitle", "postBody", "postImage", "postCategoryId", "postAuthorId"];
 
-    ["data" => $postInputData, "error" => $error] = Validate::formInputs($_POST, $allowedInputs, $requiredInputs);
+    ["data" => $postInputData, "error" => $error] = validateInputs($_POST, $allowedInputs, $requiredInputs);
 
     if (!Validate::string($postInputData['postTitle'], 1, 255) && empty($erro['postTitle'])) {
       $error['postTitle'] = "Post Title needs to be withing 1-255 characters";
@@ -172,18 +172,18 @@ class BlogController {
 
     // Set necessary field
     if (empty($_FILES['postImage']['name'])) {
-      $postImage['path'] = $postData['postImage'];
+      $postImage['filename'] = $postData['postImage'];
     } else {
-      $postImage = imageUploader($_FILES["postImage"], "/img/posts");
+      $postImage = mediaUploader($_FILES["postImage"], "img/posts");
     }
     $_POST['postId'] = $postId;
-    $_POST['postImage'] = $postImage['path'];
+    $_POST['postImage'] = $postImage['filename'];
 
     // Form validation
     $allowedInputs = ["postId", "postTitle", "postBody", "postImage", "postTags", "postCategoryId"];
     $requiredInputs = ["postTitle", "postBody", "postImage", "postCategoryId"];
 
-    ["data" => $postInputData, "error" => $error] = Validate::formInputs($_POST, $allowedInputs, $requiredInputs);
+    ["data" => $postInputData, "error" => $error] = validateInputs($_POST, $allowedInputs, $requiredInputs);
 
     if (!Validate::string($postInputData['postTitle'], 1, 255) && empty($erro['postTitle'])) {
       $error['postTitle'] = "Post Title needs to be withing 1-255 characters";
@@ -213,7 +213,6 @@ class BlogController {
     $isSuccessful = $this->db->query($postUpdateQuery, $postInputData);
     // Redirect
     redirect("/blog/{$postId}");
-
   }
 
 }

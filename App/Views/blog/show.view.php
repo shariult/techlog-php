@@ -18,7 +18,7 @@
 
         </header>
         <figure class="mb-4">
-          <img class="img-fluid rounded" src="<?=$post["postImage"]?>" alt="..." />
+          <img class="img-fluid rounded" src="/img/posts/<?=$post["postImage"]?>" alt="..." />
         </figure>
         <section class="mb-5">
           <p class="bg-dark d-inline-block mb-4 px-3 py-1 rounded-pill text-light">

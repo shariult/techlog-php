@@ -15,6 +15,7 @@
         </p>
         <a href="/blog" class="align-self-start btn btn-lg btn-primary text-light">View Blogs</a>
       </div>
+
       <div class="col-md-6">
         <img src="img/hero.3668c81f.jpg" alt="two people programming" class="img-fluid rounded shadow" />
       </div>
@@ -31,7 +32,8 @@
           <div class="card mb-3">
             <div class="g-0 row">
               <div class="col-md-4">
-                <img src="<?=$post['postImage']?>" class="h-100 img-fluid object-fit-cover rounded-start" alt="..." />
+                <img src="/img/posts/<?=$post['postImage']?>" class="h-100 img-fluid object-fit-cover rounded-start"
+                  alt="..." />
               </div>
               <div class="col-md-8">
                 <div class="card-body py-4">

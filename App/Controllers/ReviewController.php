@@ -23,7 +23,7 @@ class ReviewController {
     $allowedInputs = ["reviewId", "review", "authorName", "authorImage", "reviewAuthorId", "reviewPostId"];
     $requiredInputs = ["review", "authorName", "authorImage", "reviewAuthorId", "reviewPostId"];
 
-    ["data" => $reviewInputData, "error" => $error] = Validate::formInputs($_POST, $allowedInputs, $requiredInputs);
+    ["data" => $reviewInputData, "error" => $error] = validateInputs($_POST, $allowedInputs, $requiredInputs);
 
     if (!Validate::string($reviewInputData['review'], 6) && empty($error['review'])) {
       $error['review'] = "Review is too short";

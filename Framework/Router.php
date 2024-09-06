@@ -81,14 +81,13 @@ class Router {
           $controller = 'App\\Controllers\\' . $route['controller'];
           $controllerMethod = $route['controllerMethod'];
 
-          // Instatiate the controller and call the method
+          // Instantiate the controller and call the method
           $controllerInstance = new $controller();
           $controllerInstance->$controllerMethod($params);
           return;
         }
       }
     }
-
     ErrorController::showPage();
   }
 }

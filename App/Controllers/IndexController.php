@@ -46,8 +46,8 @@ class IndexController {
 
   public function postRegister() {
 
-    $profileImage = imageUploader($_FILES['profileImage'], "img/users");
-    $_POST['profileImage'] = $profileImage['path'] ?? "/img/users/default.svg";
+    $profileImage = mediaUploader($_FILES['profileImage'], "img/users");
+    $_POST['profileImage'] = $profileImage['filename'] ?? "default.svg";
 
     $allowedInputs = ["firstName", "lastName", "username", "password", "email", "profileImage", "birthDate", "country", "profession", "about"];
     $requiredInputs = ["firstName", "lastName", "username", "password", "email"];
