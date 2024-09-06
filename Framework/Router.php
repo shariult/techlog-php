@@ -3,6 +3,7 @@
 namespace Framework;
 
 use App\Controllers\ErrorController;
+use Framework\Middlewares\Authorize;
 
 class Router {
   protected $routes = [];
@@ -74,9 +75,9 @@ class Router {
         }
 
         if ($match) {
-          // foreach ($route['middleware'] as $middleware) {
-          //   (new Authorize())->handle($middleware);
-          // }
+          foreach ($route['middleware'] as $middleware) {
+            (new Authorize())->handle($middleware);
+          }
 
           $controller = 'App\\Controllers\\' . $route['controller'];
           $controllerMethod = $route['controllerMethod'];
