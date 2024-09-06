@@ -59,3 +59,13 @@ CREATE TABLE reviews(
   FOREIGN KEY(reviewAuthorId) REFERENCES users(userId) ON DELETE CASCADE,
   FOREIGN KEY(reviewPostId) REFERENCES posts(postId) ON DELETE CASCADE
 );
+
+-- Insert Default Categories
+INSERT INTO categories (category) VALUES
+('Gadgets'),
+('Hardware'),
+('Software'),
+('Web Development'),
+('Software Development'),
+('Internet'),
+('AI');
