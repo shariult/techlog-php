@@ -1,8 +1,10 @@
 -- Drop Tables
-DROP TABLE users;
-DROP TABLE categories;
-DROP TABLE posts;
-DROP TABLE reviews;
+SET foreign_key_checks = 0;
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+SET foreign_key_checks = 1;
 
 -- Create Tables
 CREATE TABLE users(
