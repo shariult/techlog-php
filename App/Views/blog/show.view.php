@@ -40,50 +40,23 @@
                 Add Review
               </button>
             </form>
+
+            <?php if (!empty($reviewArr)): ?>
+
+            <?php foreach ($reviewArr as $review): ?>
             <div class="d-flex mb-4">
               <div class="flex-shrink-0">
-                <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                <img class="rounded-circle" src="/img/users/<?=$review['authorImage']?>" alt="..." height="64" />
               </div>
               <div class="ms-3">
-                <div class="fw-bold">Commenter Name</div>
-                If you're going to lead a space frontier, it has to be
-                government; it'll never be private enterprise. Because the
-                space frontier is dangerous, and it's expensive, and it has
-                unquantified risks.
-                <div class="d-flex mt-4">
-                  <div class="flex-shrink-0">
-                    <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-                  </div>
-                  <div class="ms-3">
-                    <div class="fw-bold">Commenter Name</div>
-                    And under those conditions, you cannot establish a
-                    capital-market evaluation of that enterprise. You can't
-                    get investors.
-                  </div>
-                </div>
-                <div class="d-flex mt-4">
-                  <div class="flex-shrink-0">
-                    <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-                  </div>
-                  <div class="ms-3">
-                    <div class="fw-bold">Commenter Name</div>
-                    When you put money directly to a problem, it makes a
-                    good headline.
-                  </div>
-                </div>
+                <div class="fw-bold"><?=$review['authorName']?></div>
+                <?=$review['review']?>
               </div>
             </div>
-            <div class="d-flex">
-              <div class="flex-shrink-0">
-                <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-              </div>
-              <div class="ms-3">
-                <div class="fw-bold">Commenter Name</div>
-                When I look at the universe and all the ways the universe
-                wants to kill us, I find it hard to reconcile that with
-                statements of beneficence.
-              </div>
-            </div>
+            <?php endforeach;?>
+
+            <?php endif;?>
+
           </div>
         </div>
       </section>

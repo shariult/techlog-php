@@ -56,10 +56,9 @@ class BlogController {
   }
 
   public function getBlogShow($params) {
-
-    // Get post
     $postId = $params['postId'];
 
+    // Get post
     $requiredCols = "posts.*, categories.categoryId, categories.category, users.userId, users.firstName, users.lastName";
 
     $postQuery = "SELECT {$requiredCols} FROM posts";
@@ -76,10 +75,17 @@ class BlogController {
     // Get categories
     $categories = $this->getCategoryList();
 
+    // Get Reviews
+    $reviewsQuery = "SELECT * FROM reviews";
+    $reviewsQuery .= " WHERE reviewPostId = '{$postId}'";
+    $reviewsQuery .= " ORDER BY createdAt DESC";
+    $reviewArr = $this->db->query($reviewsQuery)->fetchAll();
+
     // Load view
     loadView("blog/show", [
       "post"       => $post,
       "categories" => $categories,
+      "reviewArr"  => $reviewArr,
     ]);
   }
 

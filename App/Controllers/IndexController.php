@@ -8,8 +8,8 @@ use Framework\Session;
 use Framework\Validate;
 
 class IndexController {
-
   protected $db;
+
   public function __construct() {
     $dbConfig = require basePath("config/dbConfig.php");
     $this->db = new Database($dbConfig);
