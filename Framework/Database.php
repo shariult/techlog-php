@@ -1,7 +1,10 @@
 <?php
 
 namespace Framework;
+
+use Exception;
 use PDO;
+use PDOException;
 
 class Database {
   public $connection;
@@ -12,7 +15,7 @@ class Database {
 
     // Configuring Options
     $options = [
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Set PDO to throw exceptions on Error
+      PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Set PDO to throw exceptions on Error
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // Fetch as Associative Array by Default
     ];
 
@@ -50,7 +53,7 @@ class Database {
   }
 
   public function makeUpdateQuery($tableName, $allowedInputs, $primaryKey, $where) {
-    $updateStr = array_reduce($allowedInputs, function ($acc, $str) {
+    $updateStr = array_reduce($allowedInputs, function ($acc, $str) use ($primaryKey) {
       if ($str === $primaryKey) {
         return $acc;
       } else if ($acc === "") {

@@ -1,10 +1,10 @@
 <?php
 
-$dbConfig["host"] = "localhost";
+$dbConfig["host"] = "db";
 $dbConfig["port"] = "3306";
-$dbConfig["database"] = "blog_php";
-$dbConfig["user"] = "root";
-$dbConfig["password"] = "";
+$dbConfig["database"] = "db";
+$dbConfig["user"] = "db";
+$dbConfig["password"] = "db";
 
 return $dbConfig;
 
