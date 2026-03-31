@@ -1,5 +1,5 @@
-<?php loadPartial("head");?>
-<?php loadPartial("navbar");?>
+<?php loadPartial("head"); ?>
+<?php loadPartial("navbar"); ?>
 
 <main class="main">
   <header class="container header py-5">
@@ -60,7 +60,7 @@
             </div>
           </div>
 
-          <?php endforeach;?>
+          <?php endforeach; ?>
 
         </div>
         <a href="/blog" class="btn btn-primary text-light">View All Blogs</a>
@@ -87,7 +87,7 @@
                 <?php foreach ($categories as $category): ?>
                 <li class="list-group-item"><a
                     href="/blog?categoryId=<?=$category['categoryId']?>"><?=$category['category']?></a></li>
-                <?php endforeach;?>
+                <?php endforeach; ?>
 
               </ul>
             </div>
@@ -98,5 +98,5 @@
   </section>
 </main>
 
-<?php loadPartial("footer");?>
-<?php loadPartial("end");?>
+<?php loadPartial("footer"); ?>
+<?php loadPartial("end"); ?>

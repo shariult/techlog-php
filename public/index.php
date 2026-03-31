@@ -1,6 +1,8 @@
 <?php
 
-if ($_SERVER["HTTP_HOST"] === "localhost" || $_SERVER["HTTP_HOST"] === "localhost:8000") {
+const DEV_URL = "techlog-phps.ddev.site";
+
+if ($_SERVER["HTTP_HOST"] === DEV_URL || $_SERVER["HTTP_HOST"] === "localhost:8000") {
   ini_set("display_errors", 1);
   error_reporting(E_ALL);
 }

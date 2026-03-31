@@ -1,5 +1,8 @@
-<script type="module" src="/js/script.1793ef06.js"></script>
-<script src="/js/script.f55b0c3b.js" nomodule defer></script>
+<?=loadViteClient()?>
+
+<!-- Example: Script.ts -->
+<script type="module" src="<?=loadViteAsset("js/script.ts")?>"></script>
+
 </body>
 
 </html>

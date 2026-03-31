@@ -41,6 +41,34 @@ function loadPartial($partialFile, $data = []) {
   }
 }
 
+function loadViteClient() {
+  if ($_SERVER['SERVER_NAME'] === DEV_URL) {
+    echo '<script type="module" src="http://localhost:5173/@vite/client"></script>';
+    echo '
+    <script type="module">
+      import RefreshRuntime from "http://localhost:5173/@react-refresh";
+      RefreshRuntime.injectIntoGlobalHook(window);
+      window.$RefreshReg$ = () => {}
+      window.$RefreshSig$ = () => type => type
+    </script>';
+  }
+}
+
+function loadViteAsset($path) {
+  $isDev = $_SERVER['SERVER_NAME'] === DEV_URL;
+
+  if ($isDev) {
+    return "http://localhost:5173/{$path}";
+  } else {
+    $manifestPath = __DIR__ . "/public/.vite/manifest.json";
+    $manifest = json_decode(file_get_contents($manifestPath), true);
+    if (!isset($manifest[$path])) {
+      return "/scripts/$path";
+    }
+    return "/" . $manifest[$path]['file'];
+  }
+}
+
 function redirect($url) {
   header("Location: {$url}");
   exit;

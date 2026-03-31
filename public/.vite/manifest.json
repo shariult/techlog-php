@@ -1,0 +1,39 @@
+{
+  "css/fonts/Inter.ttf": {
+    "file": "scripts/Inter-Cl4AQHp9.ttf",
+    "src": "css/fonts/Inter.ttf"
+  },
+  "css/style.scss": {
+    "file": "scripts/style-Cm2pckNh.css",
+    "name": "style",
+    "names": [
+      "style.css"
+    ],
+    "src": "css/style.scss",
+    "isEntry": true,
+    "assets": [
+      "scripts/fa-solid-900-DRAAbZTg.woff2",
+      "scripts/fa-regular-400-nyy7hhHF.woff2",
+      "scripts/fa-brands-400-BP5tdqmh.woff2",
+      "scripts/Inter-Cl4AQHp9.ttf"
+    ]
+  },
+  "js/script.ts": {
+    "file": "scripts/script-BYJskQPe.js",
+    "name": "script",
+    "src": "js/script.ts",
+    "isEntry": true
+  },
+  "webfonts/fa-brands-400.woff2": {
+    "file": "scripts/fa-brands-400-BP5tdqmh.woff2",
+    "src": "webfonts/fa-brands-400.woff2"
+  },
+  "webfonts/fa-regular-400.woff2": {
+    "file": "scripts/fa-regular-400-nyy7hhHF.woff2",
+    "src": "webfonts/fa-regular-400.woff2"
+  },
+  "webfonts/fa-solid-900.woff2": {
+    "file": "scripts/fa-solid-900-DRAAbZTg.woff2",
+    "src": "webfonts/fa-solid-900.woff2"
+  }
+}
